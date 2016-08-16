@@ -92,9 +92,13 @@ public class AlbumDetailActivity extends Activity {
                 R.layout.activity_album_detail_expanded, view.getContext());
 
         TransitionSet transitionSet = new TransitionSet();
-        transitionSet.addTransition(new ChangeBounds());
+        transitionSet.setOrdering(TransitionSet.ORDERING_SEQUENTIAL);
+        ChangeBounds changeBounds = new ChangeBounds();
+        changeBounds.setDuration(200);
+        transitionSet.addTransition(changeBounds);
         Fade fadelyrics = new Fade();
         fadelyrics.addTarget(R.id.lyrics);
+        fadelyrics.setDuration(150);
         transitionSet.addTransition(fadelyrics);
 
         TransitionManager.go(expandedScene, transitionSet);

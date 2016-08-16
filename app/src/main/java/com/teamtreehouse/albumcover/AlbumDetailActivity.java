@@ -1,5 +1,7 @@
 package com.teamtreehouse.albumcover;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -8,6 +10,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
+import android.transition.ChangeBounds;
+import android.transition.Fade;
+import android.transition.Scene;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -39,10 +46,13 @@ public class AlbumDetailActivity extends Activity {
     }
 
     private void animate(){
-        ObjectAnimator scalex = ObjectAnimator.ofFloat(fab, "scaleX", 0, 1);
-        ObjectAnimator scaley = ObjectAnimator.ofFloat(fab, "scaleY", 0, 1);
-        AnimatorSet scaleFab = new AnimatorSet();
-        scaleFab.playTogether(scalex, scaley);
+       // ObjectAnimator scalex = ObjectAnimator.ofFloat(fab, "scaleX", 0, 1);
+       // ObjectAnimator scaley = ObjectAnimator.ofFloat(fab, "scaleY", 0, 1);
+       // AnimatorSet scaleFab = new AnimatorSet();
+       // scaleFab.playTogether(scalex, scaley);
+
+        Animator scaleFab = AnimatorInflater.loadAnimator(this, R.animator.scale);
+        scaleFab.setTarget(fab);
 
         int titleStartValue = titlePanel.getTop();
         int titleEndValue = titlePanel.getBottom();
@@ -61,6 +71,10 @@ public class AlbumDetailActivity extends Activity {
         fab.setScaleX(0);
         fab.setScaleY(0);
 
+        //animatorTitle.setDuration(1000);
+        //animatorTrack.setDuration(1000);
+        //animatorTitle.setStartDelay(1000);
+
         AnimatorSet set = new AnimatorSet();
         set.playSequentially(animatorTitle, animatorTrack, scaleFab);
         set.start();
@@ -69,6 +83,21 @@ public class AlbumDetailActivity extends Activity {
     @OnClick(R.id.album_art)
     public void onAlbumArtClick(View view) {
             animate();
+    }
+
+    @OnClick(R.id.track_panel)
+    public void onTrackPanelClick(View view) {
+        ViewGroup transitionRoot = detailContainer;
+        Scene expandedScene = Scene.getSceneForLayout(transitionRoot,
+                R.layout.activity_album_detail_expanded, view.getContext());
+
+        TransitionSet transitionSet = new TransitionSet();
+        transitionSet.addTransition(new ChangeBounds());
+        Fade fadelyrics = new Fade();
+        fadelyrics.addTarget(R.id.lyrics);
+        transitionSet.addTransition(fadelyrics);
+
+        TransitionManager.go(expandedScene, transitionSet);
     }
 
     private void populate() {

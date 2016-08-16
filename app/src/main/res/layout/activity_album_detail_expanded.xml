@@ -12,7 +12,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:id="@+id/album_art"
             android:src="@drawable/mean_something_kinder_than_wolves"
@@ -98,5 +98,16 @@
                 android:text="@string/track_time"
                 android:id="@+id/length" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/lyrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/track_panel"
+            android:layout_margin="15dp"
+            android:text="@string/lyrics"
+            android:textAppearance="?android:attr/textAppearanceInverse"
+            />
     </RelativeLayout>
+
 </ScrollView>

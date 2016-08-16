@@ -1,5 +1,6 @@
 package com.teamtreehouse.albumcover;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.res.ColorStateList;
@@ -9,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -36,17 +39,31 @@ public class AlbumDetailActivity extends Activity {
     }
 
     private void animate(){
-        fab.setScaleX(0);
-        fab.setScaleY(0);
-        fab.animate().scaleX(1).scaleY(1).start();
+        ObjectAnimator scalex = ObjectAnimator.ofFloat(fab, "scaleX", 0, 1);
+        ObjectAnimator scaley = ObjectAnimator.ofFloat(fab, "scaleY", 0, 1);
+        AnimatorSet scaleFab = new AnimatorSet();
+        scaleFab.playTogether(scalex, scaley);
 
         int titleStartValue = titlePanel.getTop();
         int titleEndValue = titlePanel.getBottom();
-        ObjectAnimator.ofInt(titlePanel, "bottom", titleStartValue, titleEndValue).start();
+        ObjectAnimator animatorTitle = ObjectAnimator.ofInt(titlePanel, "bottom", titleStartValue, titleEndValue);
+        //add Interpolator to the speed of the Animator Tittle
+        animatorTitle.setInterpolator(new AccelerateInterpolator());
 
         int trackStartValue = trackPanel.getTop();
         int trackEndValue = trackPanel.getBottom();
-        ObjectAnimator.ofInt(trackPanel, "bottom", trackStartValue, trackEndValue).start();
+        ObjectAnimator animatorTrack = ObjectAnimator.ofInt(trackPanel, "bottom", trackStartValue, trackEndValue);
+        //Add Decelerator to decrease the speed of the Animator Track
+        animatorTrack.setInterpolator(new DecelerateInterpolator());
+
+        titlePanel.setBottom(titleStartValue);
+        trackPanel.setBottom(trackStartValue);
+        fab.setScaleX(0);
+        fab.setScaleY(0);
+
+        AnimatorSet set = new AnimatorSet();
+        set.playSequentially(animatorTitle, animatorTrack, scaleFab);
+        set.start();
     }
 
     @OnClick(R.id.album_art)

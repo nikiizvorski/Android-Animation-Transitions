@@ -141,9 +141,14 @@ public class AlbumDetailActivity extends Activity {
     }
 
     private void setupTransition() {
+
+        Slide slide = new Slide(Gravity.BOTTOM);
+        slide.excludeTarget(android.R.id.statusBarBackground, true);
         //Add Activity Transitions
-        getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
-        getWindow().setReturnTransition(new Fade());
+        getWindow().setEnterTransition(slide);
+        getWindow().setSharedElementsUseOverlay(false);
+        //Excluding items from transition!
+       // getWindow().setReturnTransition(new Fade());
 
         mTransitionManager = new TransitionManager();
         ViewGroup transitionRoot = detailContainer;

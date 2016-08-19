@@ -2,8 +2,7 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/detail_container"
@@ -12,7 +11,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="485dp"
+            android:layout_height="495dp"
             android:scaleType="centerCrop"
             android:id="@+id/album_art"
             android:src="@drawable/mean_something_kinder_than_wolves"

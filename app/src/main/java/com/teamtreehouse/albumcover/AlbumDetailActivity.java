@@ -9,6 +9,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.graphics.Palette;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
@@ -146,7 +147,7 @@ public class AlbumDetailActivity extends Activity {
         slide.excludeTarget(android.R.id.statusBarBackground, true);
         //Add Activity Transitions
         getWindow().setEnterTransition(slide);
-        getWindow().setSharedElementsUseOverlay(false);
+        getWindow().setSharedElementsUseOverlay(false   );
         //Excluding items from transition!
        // getWindow().setReturnTransition(new Fade());
 
@@ -209,11 +210,20 @@ public class AlbumDetailActivity extends Activity {
     }
 
     private void populate() {
-        int albumArtResId = getIntent().getIntExtra(EXTRA_ALBUM_ART_RESID, R.drawable.mean_something_kinder_than_wolves);
-        albumArtView.setImageResource(albumArtResId);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int albumArtResId = getIntent().getIntExtra(EXTRA_ALBUM_ART_RESID, R.drawable.mean_something_kinder_than_wolves);
+                albumArtView.setImageResource(albumArtResId);
 
-        Bitmap albumBitmap = getReducedBitmap(albumArtResId);
-        colorizeFromImage(albumBitmap);
+                Bitmap albumBitmap = getReducedBitmap(albumArtResId);
+                colorizeFromImage(albumBitmap);
+
+                startPostponedEnterTransition();
+            }
+        }, 1000);
+
+
     }
 
     private Bitmap getReducedBitmap(int albumArtResId) {

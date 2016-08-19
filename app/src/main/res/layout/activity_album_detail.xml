@@ -12,7 +12,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="485dp"
             android:scaleType="centerCrop"
             android:id="@+id/album_art"
             android:src="@drawable/mean_something_kinder_than_wolves"
